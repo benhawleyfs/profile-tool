@@ -17,6 +17,8 @@ interface Profile {
   latLng: string;
 }
 
+const JB_PROFILE_URL = "https://www.flowrestling.org/nextgen/people/11021385-jordan-burroughs?tab=home";
+
 const jordanBurroughs: Profile = {
   id: "0Y4KrP3a43fZbBiL",
   name: "Jordan Burroughs",
@@ -72,14 +74,16 @@ export default function Home() {
           <div className="max-w-4xl mx-auto space-y-8">
             {/* ID Lookup */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-2">Lookup by ID</h2>
-              <p className="text-sm text-gray-600 mb-4">
-                Paste a flo360 ID, profile URL, or provider ID to go directly to a profile
-              </p>
+              <h2 className="text-lg font-medium text-gray-900 mb-2">Lookup by ID or URL</h2>
+              <ul className="text-sm text-gray-600 mb-4 list-disc list-inside space-y-1">
+                <li>flo360 ID (e.g. <code className="bg-gray-100 px-1 rounded">0Y4KrP3a43fZbBiL</code>)</li>
+                <li>Profile URL (e.g. <code className="bg-gray-100 px-1 rounded text-xs">flowrestling.org/nextgen/people/...</code>)</li>
+                <li>Provider ID (e.g. Core, TrackWrestling)</li>
+              </ul>
               <div className="flex gap-3">
                 <input
                   type="text"
-                  placeholder="e.g. 0Y4KrP3a43fZbBiL"
+                  placeholder="Paste ID or URL..."
                   className="flex-1 border border-gray-300 rounded-md px-4 py-3 text-sm text-gray-900"
                 />
                 <button
@@ -114,7 +118,9 @@ export default function Home() {
                       className="p-4 hover:bg-gray-50 cursor-pointer flex items-center justify-between"
                     >
                       <div>
-                        <div className="font-medium text-gray-900">Jordan Burroughs</div>
+                        <div className="font-medium text-gray-900">
+                          <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="hover:text-blue-600 hover:underline">Jordan Burroughs</a>
+                        </div>
                         <div className="text-sm text-gray-600 mt-1">Sunkist Kids Wrestling Club · 74 kg · Philadelphia, PA</div>
                         <div className="text-xs text-gray-400 mt-1">0Y4KrP3a43fZbBiL</div>
                       </div>
@@ -149,7 +155,9 @@ export default function Home() {
           >
             ← Back to Search
           </button>
-          <h1 className="text-xl font-semibold text-gray-900">{selectedProfile.name}</h1>
+          <h1 className="text-xl font-semibold text-gray-900">
+            <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">{selectedProfile.name}</a>
+          </h1>
           <p className="text-sm text-gray-500 mt-1">{selectedProfile.id}</p>
         </div>
       </header>
@@ -283,7 +291,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-lg font-medium text-gray-900 mb-2">Active Merges</h2>
-                <p className="text-sm text-gray-600 mb-6">2 profiles have been merged with {selectedProfile.name}</p>
+                <p className="text-sm text-gray-600 mb-6">2 profiles have been merged with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
 
                 {/* Merged Profile 1 */}
                 <div className="border border-gray-200 rounded-lg mb-4">
@@ -456,7 +464,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-lg font-medium text-gray-900 mb-2">Merge with Another Profile</h2>
-                <p className="text-sm text-gray-600 mb-4">Paste the flo360 ID of the profile you want to merge with {selectedProfile.name}</p>
+                <p className="text-sm text-gray-600 mb-4">Paste the flo360 ID of the profile you want to merge with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
                 <div className="flex gap-3">
                   <input
                     type="text"
@@ -511,7 +519,7 @@ export default function Home() {
 
                 <div className="mt-6 flex items-center justify-between pt-4 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
-                    This will merge <strong>Jordan Williams</strong> into <strong>{selectedProfile.name}</strong>
+                    This will merge <strong>Jordan Williams</strong> into <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">{selectedProfile.name}</a>
                   </p>
                   <div className="flex gap-3">
                     <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
