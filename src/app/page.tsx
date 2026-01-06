@@ -35,6 +35,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("overview");
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set([0, 1]));
   const [showRawJson, setShowRawJson] = useState<Record<string, boolean>>({});
+  const [searchText, setSearchText] = useState("");
 
   const toggleRow = (index: number) => {
     setExpandedRows(prev => {
@@ -78,7 +79,7 @@ export default function Home() {
               <div className="flex gap-3">
                 <input
                   type="text"
-                  placeholder="e.g. jb-flo360-001 or https://flo360.com/person/..."
+                  placeholder="e.g. 0Y4KrP3a43fZbBiL"
                   className="flex-1 border border-gray-300 rounded-md px-4 py-3 text-sm text-gray-900"
                 />
                 <button
@@ -96,36 +97,39 @@ export default function Home() {
               <p className="text-sm text-gray-600 mb-4">
                 Find a profile by searching for an athlete's name
               </p>
-              <div className="flex gap-3 mb-6">
-                <input
-                  type="text"
-                  placeholder="Enter athlete name..."
-                  defaultValue="Jordan"
-                  className="flex-1 border border-gray-300 rounded-md px-4 py-3 text-sm text-gray-900"
-                />
-                <button className="bg-gray-100 text-gray-700 px-6 py-3 rounded-md text-sm font-medium hover:bg-gray-200 border border-gray-300">
-                  Search
-                </button>
-              </div>
+              <input
+                type="text"
+                placeholder="Enter athlete name..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm text-gray-900"
+              />
 
               {/* Search Results */}
-              <div className="border border-gray-200 rounded-lg divide-y divide-gray-200">
-                <div
-                  onClick={() => selectProfile(jordanBurroughs)}
-                  className="p-4 hover:bg-gray-50 cursor-pointer flex items-center justify-between"
-                >
-                  <div>
-                    <div className="font-medium text-gray-900">Jordan Burroughs</div>
-                    <div className="text-sm text-gray-600 mt-1">Sunkist Kids Wrestling Club · 74 kg · Philadelphia, PA</div>
-                    <div className="text-xs text-gray-400 mt-1">0Y4KrP3a43fZbBiL</div>
+              {searchText.length > 0 && jordanBurroughs.name.toLowerCase().includes(searchText.toLowerCase()) && (
+                <>
+                  <div className="border border-gray-200 rounded-lg divide-y divide-gray-200 mt-6">
+                    <div
+                      onClick={() => selectProfile(jordanBurroughs)}
+                      className="p-4 hover:bg-gray-50 cursor-pointer flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-medium text-gray-900">Jordan Burroughs</div>
+                        <div className="text-sm text-gray-600 mt-1">Sunkist Kids Wrestling Club · 74 kg · Philadelphia, PA</div>
+                        <div className="text-xs text-gray-400 mt-1">0Y4KrP3a43fZbBiL</div>
+                      </div>
+                      <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                        View Profile →
+                      </button>
+                    </div>
                   </div>
-                  <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                    View Profile →
-                  </button>
-                </div>
-              </div>
+                  <p className="text-sm text-gray-500 mt-4">1 result for "{searchText}"</p>
+                </>
+              )}
 
-              <p className="text-sm text-gray-500 mt-4">1 result for "Jordan"</p>
+              {searchText.length > 0 && !jordanBurroughs.name.toLowerCase().includes(searchText.toLowerCase()) && (
+                <p className="text-sm text-gray-500 mt-6">No results for "{searchText}"</p>
+              )}
             </div>
           </div>
         </main>
@@ -288,10 +292,7 @@ export default function Home() {
                       <button onClick={() => toggleRow(0)} className="text-gray-400 hover:text-gray-600">
                         {expandedRows.has(0) ? "▼" : "▶"}
                       </button>
-                      <div>
-                        <span className="font-medium text-gray-900">J. Burroughs</span>
-                        <span className="text-sm text-gray-500 ml-2">flo360</span>
-                      </div>
+                      <span className="font-medium text-gray-900">J. Burroughs</span>
                     </div>
                     <button className="text-sm text-red-600 hover:text-red-700 font-medium">Unmerge</button>
                   </div>
@@ -466,8 +467,8 @@ export default function Home() {
                 <div className="flex gap-3">
                   <input
                     type="text"
-                    placeholder="Paste flo360 ID..."
-                    defaultValue="jw-flo360-042"
+                    placeholder="e.g. 0Y4KrP3a43fZbBiL"
+                    defaultValue=""
                     className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900"
                   />
                   <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
