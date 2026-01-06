@@ -299,56 +299,55 @@ export default function Home() {
 
                   {expandedRows.has(0) && (
                     <div className="p-4">
+                      <div className="grid grid-cols-2 gap-8 mb-3">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Merged Profile</div>
+                      </div>
                       <div className="grid grid-cols-2 gap-8">
-                        <div>
-                          <h4 className="text-sm font-medium text-gray-900 mb-1">{selectedProfile.name} <span className="text-gray-400 font-normal">(Current Profile)</span></h4>
-                          <div className="bg-white border border-gray-200 rounded-lg p-4 mt-2">
-                            <dl className="space-y-2 text-sm">
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
-                            </dl>
-                            <button onClick={() => toggleJson("row0-jb")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
-                              {showRawJson["row0-jb"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
-                            </button>
-                            {showRawJson["row0-jb"] && (
-                              <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                          <dl className="space-y-2 text-sm">
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
+                          </dl>
+                          <button onClick={() => toggleJson("row0-jb")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
+                            {showRawJson["row0-jb"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
+                          </button>
+                          {showRawJson["row0-jb"] && (
+                            <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
 {JSON.stringify(selectedProfile, null, 2)}
-                              </pre>
-                            )}
-                          </div>
+                            </pre>
+                          )}
                         </div>
-                        <div>
-                          <h4 className="text-sm font-medium text-gray-900 mb-1">J. Burroughs <span className="text-gray-400 font-normal">(Merged Profile)</span></h4>
-                          <div className="bg-white border border-gray-200 rounded-lg p-4 mt-2">
-                            <dl className="space-y-2 text-sm">
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">J. Burroughs</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">—</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Nebraska Wrestling</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">163 lbs</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Lincoln, NE 68508</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">40.8258, -96.6852 (1.2 miles away)</dd></div>
-                            </dl>
-                            <button onClick={() => toggleJson("row0-merged")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
-                              {showRawJson["row0-merged"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
-                            </button>
-                            {showRawJson["row0-merged"] && (
-                              <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                          <dl className="space-y-2 text-sm">
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">J. Burroughs</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">—</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (20 years ago)</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Nebraska Wrestling</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">163 lbs</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Lincoln, NE 68508</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">40.8258, -96.6852 (1.2 miles away)</dd></div>
+                          </dl>
+                          <button onClick={() => toggleJson("row0-merged")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
+                            {showRawJson["row0-merged"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
+                          </button>
+                          {showRawJson["row0-merged"] && (
+                            <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
 {JSON.stringify({
-  id: "jb-flo360-002",
+  id: "2Xk9mPqR7vNwYzA3",
   firstName: "J.",
   lastName: "Burroughs",
   nickname: null,
@@ -359,9 +358,8 @@ export default function Home() {
   weightClass: "163 lbs",
   location: { city: "Lincoln", state: "NE", zip: "68508", lat: 40.8258, lng: -96.6852 }
 }, null, 2)}
-                              </pre>
-                            )}
-                          </div>
+                            </pre>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -375,66 +373,62 @@ export default function Home() {
                       <button onClick={() => toggleRow(1)} className="text-gray-400 hover:text-gray-600">
                         {expandedRows.has(1) ? "▼" : "▶"}
                       </button>
-                      <div>
-                        <span className="font-medium text-gray-900">Jordan E Burroughs</span>
-                        <span className="text-sm text-gray-500 ml-2">flo360</span>
-                      </div>
+                      <span className="font-medium text-gray-900">Jordan E Burroughs</span>
                     </div>
                     <button className="text-sm text-red-600 hover:text-red-700 font-medium">Unmerge</button>
                   </div>
 
                   {expandedRows.has(1) && (
                     <div className="p-4">
+                      <div className="grid grid-cols-2 gap-8 mb-3">
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Merged Profile</div>
+                      </div>
                       <div className="grid grid-cols-2 gap-8">
-                        <div>
-                          <h4 className="text-sm font-medium text-gray-900 mb-1">{selectedProfile.name} <span className="text-gray-400 font-normal">(Current Profile)</span></h4>
-                          <div className="bg-white border border-gray-200 rounded-lg p-4 mt-2">
-                            <dl className="space-y-2 text-sm">
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
-                            </dl>
-                            <button onClick={() => toggleJson("row1-jb")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
-                              {showRawJson["row1-jb"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
-                            </button>
-                            {showRawJson["row1-jb"] && (
-                              <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                          <dl className="space-y-2 text-sm">
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
+                          </dl>
+                          <button onClick={() => toggleJson("row1-jb")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
+                            {showRawJson["row1-jb"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
+                          </button>
+                          {showRawJson["row1-jb"] && (
+                            <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
 {JSON.stringify(selectedProfile, null, 2)}
-                              </pre>
-                            )}
-                          </div>
+                            </pre>
+                          )}
                         </div>
-                        <div>
-                          <h4 className="text-sm font-medium text-gray-900 mb-1">Jordan E Burroughs <span className="text-gray-400 font-normal">(Merged Profile)</span></h4>
-                          <div className="bg-white border border-gray-200 rounded-lg p-4 mt-2">
-                            <dl className="space-y-2 text-sm">
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan E Burroughs</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">JB</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">USA Wrestling</dd></div>
-                              <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">74 kg</dd></div>
-                              <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Colorado Springs, CO 80909</dd></div>
-                              <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">38.8339, -104.8214 (463 miles away)</dd></div>
-                            </dl>
-                            <button onClick={() => toggleJson("row1-merged")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
-                              {showRawJson["row1-merged"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
-                            </button>
-                            {showRawJson["row1-merged"] && (
-                              <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                          <dl className="space-y-2 text-sm">
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan E Burroughs</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">JB</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (20 years ago)</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">USA Wrestling</dd></div>
+                            <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">74 kg</dd></div>
+                            <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Colorado Springs, CO 80909</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">38.8339, -104.8214 (463 miles away)</dd></div>
+                          </dl>
+                          <button onClick={() => toggleJson("row1-merged")} className="mt-4 text-sm text-gray-500 hover:text-gray-700">
+                            {showRawJson["row1-merged"] ? "▼ Hide raw JSON" : "▶ Show raw JSON"}
+                          </button>
+                          {showRawJson["row1-merged"] && (
+                            <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-48 text-gray-800">
 {JSON.stringify({
-  id: "jb-flo360-003",
+  id: "7HnTqW4pL9sRvXm2",
   firstName: "Jordan",
   middleInitial: "E",
   lastName: "Burroughs",
@@ -446,9 +440,8 @@ export default function Home() {
   weightClass: "74 kg",
   location: { city: "Colorado Springs", state: "CO", zip: "80909", lat: 38.8339, lng: -104.8214 }
 }, null, 2)}
-                              </pre>
-                            )}
-                          </div>
+                            </pre>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -479,43 +472,40 @@ export default function Home() {
 
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-lg font-medium text-gray-900 mb-4">Comparison</h2>
+                <div className="grid grid-cols-2 gap-8 mb-3">
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Profile to Merge</div>
+                </div>
                 <div className="grid grid-cols-2 gap-8">
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">{selectedProfile.name} <span className="text-gray-400 font-normal">(Current Profile)</span></h4>
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-2">
-                      <dl className="space-y-2 text-sm">
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
-                        <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear}</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
-                        <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
-                      </dl>
-                    </div>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <dl className="space-y-2 text-sm">
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                      <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                      <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
+                    </dl>
                   </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">Jordan Williams <span className="text-gray-400 font-normal">(To Merge)</span></h4>
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-2">
-                      <dl className="space-y-2 text-sm">
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan Williams</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">J-Will</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
-                        <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1995-03-22 (29 years)</dd></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2013</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Iowa Wrestling</dd></div>
-                        <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">86 kg</dd></div>
-                        <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Iowa City, IA 52240</dd></div>
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">41.6611, -91.5302 (268 miles away)</dd></div>
-                      </dl>
-                    </div>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <dl className="space-y-2 text-sm">
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan Williams</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">J-Will</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                      <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1995-03-22 (31 years)</dd></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2013 (13 years ago)</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Iowa Wrestling</dd></div>
+                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">86 kg</dd></div>
+                      <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Iowa City, IA 52240</dd></div>
+                      <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">41.6611, -91.5302 (268 miles away)</dd></div>
+                    </dl>
                   </div>
                 </div>
 
