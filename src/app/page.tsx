@@ -4,6 +4,23 @@ import { useState } from "react";
 
 type ProfileTab = "editFields" | "removeMerges" | "addMerge" | "removeEvents" | "addEvents";
 
+// Annotation system
+interface Annotation {
+  id: string;
+  label: string;
+  priority: "P0" | "P1" | "P2";
+  description: string;
+}
+
+const annotations: Annotation[] = [
+  {
+    id: "internal-external-toggle",
+    label: "Internal vs External View",
+    priority: "P0",
+    description: "This toggle is just to demonstrate how the external user interface will be different (removing PII). No version of the tool will have this toggle.",
+  },
+];
+
 interface Profile {
   id: string;
   name: string;
@@ -87,7 +104,7 @@ export default function Home() {
   const [searchText, setSearchText] = useState("");
   const [viewMode, setViewMode] = useState<"internal" | "external">("internal");
   const [openDropdown, setOpenDropdown] = useState<"merges" | "events" | null>(null);
-
+  
   const toggleRow = (index: number) => {
     setExpandedRows(prev => {
       const next = new Set(prev);
@@ -195,21 +212,21 @@ export default function Home() {
   // PROFILE MODE
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with Back Link */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-6xl mx-auto">
-          <button
-            onClick={() => setSelectedProfile(null)}
-            className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center gap-1"
-          >
-            ← Back to Search
-          </button>
-          <h1 className="text-xl font-semibold text-gray-900">
-            <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">{selectedProfile.name}</a>
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">{selectedProfile.id}</p>
-        </div>
-      </header>
+        {/* Header with Back Link */}
+        <header className="bg-white border-b border-gray-200 px-6 py-4">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => setSelectedProfile(null)}
+              className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center gap-1"
+            >
+              ← Back to Search
+            </button>
+            <h1 className="text-xl font-semibold text-gray-900">
+              <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">{selectedProfile.name}</a>
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">{selectedProfile.id}</p>
+          </div>
+        </header>
 
       {/* Tabs */}
       <div className="bg-white border-b border-gray-200 px-6">
@@ -388,7 +405,16 @@ export default function Home() {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-start justify-between mb-2">
                   <h2 className="text-lg font-medium text-gray-900">Active Merges</h2>
-                  <div className="relative group">
+                  <div className="relative group flex items-center gap-2">
+                    {/* Annotation Badge */}
+                    <div className="relative">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-amber-600 text-xs font-medium cursor-help border border-amber-200">
+                        ?
+                      </span>
+                      <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                        <p>{annotations.find(a => a.id === "internal-external-toggle")?.description}</p>
+                      </div>
+                    </div>
                     <button
                       onClick={() => setViewMode(viewMode === "internal" ? "external" : "internal")}
                       className={`text-sm px-3 py-1 rounded-md font-medium ${
@@ -399,9 +425,6 @@ export default function Home() {
                     >
                       {viewMode === "internal" ? "View External" : "View Internal"}
                     </button>
-                    <div className="absolute right-0 top-full mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                      External view hides PII (DOB, lat/lng) from users
-                    </div>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 mb-6">2 profiles have been merged with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
