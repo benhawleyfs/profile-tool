@@ -4,23 +4,6 @@ import { useState } from "react";
 
 type ProfileTab = "editFields" | "removeMerges" | "addMerge" | "removeEvents" | "addEvents";
 
-// Annotation system
-interface Annotation {
-  id: string;
-  label: string;
-  priority: "P0" | "P1" | "P2";
-  description: string;
-}
-
-const annotations: Annotation[] = [
-  {
-    id: "internal-external-toggle",
-    label: "Internal vs External View",
-    priority: "P0",
-    description: "This toggle is just to demonstrate how the external user interface will be different (removing PII). No version of the tool will have this toggle.",
-  },
-];
-
 interface Profile {
   id: string;
   name: string;
@@ -104,7 +87,7 @@ export default function Home() {
   const [searchText, setSearchText] = useState("");
   const [viewMode, setViewMode] = useState<"internal" | "external">("internal");
   const [openDropdown, setOpenDropdown] = useState<"merges" | "events" | null>(null);
-  
+
   const toggleRow = (index: number) => {
     setExpandedRows(prev => {
       const next = new Set(prev);
@@ -212,21 +195,52 @@ export default function Home() {
   // PROFILE MODE
   return (
     <div className="min-h-screen bg-gray-50">
-        {/* Header with Back Link */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="max-w-6xl mx-auto">
-            <button
-              onClick={() => setSelectedProfile(null)}
-              className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center gap-1"
-            >
-              ← Back to Search
-            </button>
-            <h1 className="text-xl font-semibold text-gray-900">
-              <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">{selectedProfile.name}</a>
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">{selectedProfile.id}</p>
+      {/* Header with Back Link */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-start justify-between">
+            <div>
+              <button
+                onClick={() => setSelectedProfile(null)}
+                className="text-sm text-blue-600 hover:text-blue-700 mb-2 flex items-center gap-1"
+              >
+                ← Back to Search
+              </button>
+              <h1 className="text-xl font-semibold text-gray-900">
+                <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">{selectedProfile.name}</a>
+              </h1>
+              <p className="text-sm text-gray-500 mt-1">{selectedProfile.id}</p>
+            </div>
+            <div className="relative group">
+              <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                <button
+                  onClick={() => setViewMode("internal")}
+                  className={`text-sm px-3 py-1.5 font-medium ${
+                    viewMode === "internal"
+                      ? "bg-gray-900 text-white"
+                      : "bg-white text-gray-500 hover:bg-gray-50"
+                  }`}
+                >
+                  Internal View
+                </button>
+                <button
+                  onClick={() => setViewMode("external")}
+                  className={`text-sm px-3 py-1.5 font-medium ${
+                    viewMode === "external"
+                      ? "bg-gray-900 text-white"
+                      : "bg-white text-gray-500 hover:bg-gray-50"
+                  }`}
+                >
+                  External View
+                </button>
+              </div>
+              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                This toggle is just to demonstrate how the external user interface will be different (removing PII). No version of the tool will have this toggle.
+              </div>
+            </div>
           </div>
-        </header>
+        </div>
+      </header>
 
       {/* Tabs */}
       <div className="bg-white border-b border-gray-200 px-6">
@@ -315,7 +329,9 @@ export default function Home() {
 
       {/* Tab Content */}
       <main className="px-6 py-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto flex gap-6">
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
           {/* EDIT FIELDS TAB */}
           {activeTab === "editFields" && (
             <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -403,30 +419,7 @@ export default function Home() {
           {activeTab === "removeMerges" && (
             <div className="space-y-4">
               <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="flex items-start justify-between mb-2">
-                  <h2 className="text-lg font-medium text-gray-900">Active Merges</h2>
-                  <div className="relative group flex items-center gap-2">
-                    {/* Annotation Badge */}
-                    <div className="relative">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-amber-600 text-xs font-medium cursor-help border border-amber-200">
-                        ?
-                      </span>
-                      <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-                        <p>{annotations.find(a => a.id === "internal-external-toggle")?.description}</p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setViewMode(viewMode === "internal" ? "external" : "internal")}
-                      className={`text-sm px-3 py-1 rounded-md font-medium ${
-                        viewMode === "internal"
-                          ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                          : "bg-blue-100 text-blue-700 hover:bg-blue-200"
-                      }`}
-                    >
-                      {viewMode === "internal" ? "View External" : "View Internal"}
-                    </button>
-                  </div>
-                </div>
+                <h2 className="text-lg font-medium text-gray-900 mb-2">Active Merges</h2>
                 <p className="text-sm text-gray-600 mb-6">2 profiles have been merged with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
 
                 {/* Merged Profile 1 */}
@@ -457,7 +450,7 @@ export default function Home() {
                             {viewMode === "internal" && (
                               <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
                             )}
-                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
                             <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
@@ -488,7 +481,7 @@ export default function Home() {
                             {viewMode === "internal" && (
                               <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
                             )}
-                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (20 years ago)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (~38 years old)</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Nebraska Wrestling</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">163 lbs</dd></div>
                             <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
@@ -554,7 +547,7 @@ export default function Home() {
                             {viewMode === "internal" && (
                               <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
                             )}
-                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
                             <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
@@ -585,7 +578,7 @@ export default function Home() {
                             {viewMode === "internal" && (
                               <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1988-07-08 (36 years)</dd></div>
                             )}
-                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (20 years ago)</dd></div>
+                            <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (~38 years old)</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">USA Wrestling</dd></div>
                             <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">74 kg</dd></div>
                             <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
@@ -630,100 +623,214 @@ export default function Home() {
           {/* ADD MERGE TAB */}
           {activeTab === "addMerge" && (
             <div className="space-y-6">
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="flex items-start justify-between mb-2">
-                  <h2 className="text-lg font-medium text-gray-900">Merge with Another Profile</h2>
-                  <div className="relative group">
-                    <button
-                      onClick={() => setViewMode(viewMode === "internal" ? "external" : "internal")}
-                      className={`text-sm px-3 py-1 rounded-md font-medium ${
-                        viewMode === "internal"
-                          ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                          : "bg-blue-100 text-blue-700 hover:bg-blue-200"
-                      }`}
-                    >
-                      {viewMode === "internal" ? "View External" : "View Internal"}
-                    </button>
-                    <div className="absolute right-0 top-full mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                      External view hides PII (DOB, lat/lng) from users
+              {viewMode === "internal" ? (
+                <>
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <h2 className="text-lg font-medium text-gray-900 mb-2">Merge with Another Profile</h2>
+                    <p className="text-sm text-gray-600 mb-4">Paste the flo360 ID of the profile you want to merge with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
+                    <div className="flex gap-3">
+                      <input
+                        type="text"
+                        placeholder="e.g. 0Y4KrP3a43fZbBiL"
+                        defaultValue=""
+                        className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900"
+                      />
+                      <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+                        Load Profile
+                      </button>
                     </div>
                   </div>
-                </div>
-                <p className="text-sm text-gray-600 mb-4">Paste the flo360 ID of the profile you want to merge with <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{selectedProfile.name}</a></p>
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    placeholder="e.g. 0Y4KrP3a43fZbBiL"
-                    defaultValue=""
-                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900"
-                  />
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                    Load Profile
-                  </button>
-                </div>
-              </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Comparison</h2>
-                <div className="grid grid-cols-2 gap-8 mb-3">
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Profile to Merge</div>
-                </div>
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <dl className="space-y-2 text-sm">
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
-                      <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                      {viewMode === "internal" && (
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
-                      )}
-                      <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (20 years ago)</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
-                      <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                      <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
-                      {viewMode === "internal" && (
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
-                      )}
-                    </dl>
-                  </div>
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <dl className="space-y-2 text-sm">
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan Williams</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">J-Will</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
-                      <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
-                      {viewMode === "internal" && (
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1995-03-22 (31 years)</dd></div>
-                      )}
-                      <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2013 (13 years ago)</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Iowa Wrestling</dd></div>
-                      <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">86 kg</dd></div>
-                      <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
-                      <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Iowa City, IA 52240</dd></div>
-                      {viewMode === "internal" && (
-                        <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">41.6611, -91.5302 (268 miles away)</dd></div>
-                      )}
-                    </dl>
-                  </div>
-                </div>
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <h2 className="text-lg font-medium text-gray-900 mb-4">Comparison</h2>
+                    <div className="grid grid-cols-2 gap-8 mb-3">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Profile to Merge</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8">
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">{selectedProfile.dob} (36 years)</dd></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">{selectedProfile.latLng}</dd></div>
+                        </dl>
+                      </div>
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan Williams</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">J-Will</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">DOB:</dt><dd className="text-gray-900">1995-03-22 (31 years)</dd></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2013 (~31 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Iowa Wrestling</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">86 kg</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Iowa City, IA 52240</dd></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">Lat/lng:</dt><dd className="text-gray-900">41.6611, -91.5302 (268 miles away)</dd></div>
+                        </dl>
+                      </div>
+                    </div>
 
-                <div className="mt-6 flex items-center justify-between pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600">
-                    This will merge <strong>Jordan Williams</strong> into <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">{selectedProfile.name}</a>
-                  </p>
-                  <div className="flex gap-3">
-                    <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                      Cancel
-                    </button>
-                    <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
-                      Merge Profiles
-                    </button>
+                    <div className="mt-6 flex items-center justify-between pt-4 border-t border-gray-200">
+                      <p className="text-sm text-gray-600">
+                        This will merge <strong>Jordan Williams</strong> into <a href={JB_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline">{selectedProfile.name}</a>
+                      </p>
+                      <div className="flex gap-3">
+                        <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                          Cancel
+                        </button>
+                        <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                          Merge Profiles
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-lg font-medium text-gray-900">Suggested Merge Candidates</h2>
+                    <div className="relative group">
+                      <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs font-medium cursor-help">?</span>
+                      <div className="absolute left-0 top-full mt-2 w-64 p-3 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                        External users can only merge with profiles that have been pre-verified by the Data Resolution Service as potential matches. Internal users can merge any profile by ID.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Candidate 1 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <div className="grid grid-cols-2 gap-8 mb-3">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">J. Burroughs</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8">
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                        </dl>
+                      </div>
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">J. Burroughs</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">—</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Nebraska Wrestling</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">163 lbs</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Lincoln, NE 68508</dd></div>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Merge Profiles
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Candidate 2 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <div className="grid grid-cols-2 gap-8 mb-3">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Jordan E Burroughs</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8">
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                        </dl>
+                      </div>
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan E Burroughs</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">JB</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2006 (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">USA Wrestling</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">74 kg</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Colorado Springs, CO 80909</dd></div>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Merge Profiles
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Candidate 3 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <div className="grid grid-cols-2 gap-8 mb-3">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Profile</div>
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Jordan Burroughs Jr</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8">
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">{selectedProfile.name}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">{selectedProfile.nickname}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">{selectedProfile.gender}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">{selectedProfile.hsGradYear} (~38 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">{selectedProfile.team}</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">{selectedProfile.weightClass}</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">{selectedProfile.location}</dd></div>
+                        </dl>
+                      </div>
+                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <dl className="space-y-2 text-sm">
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Name:</dt><dd className="text-gray-900">Jordan Burroughs Jr</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Nickname:</dt><dd className="text-gray-900">—</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Gender:</dt><dd className="text-gray-900">Male</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Age</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">HS Grad Year:</dt><dd className="text-gray-900">2025 (~19 years old)</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Team:</dt><dd className="text-gray-900">Waukee HS</dd></div>
+                          <div className="flex"><dt className="w-28 text-gray-600 font-medium">Weight Class:</dt><dd className="text-gray-900">160 lbs</dd></div>
+                          <div className="mt-2"><span className="text-gray-600 font-medium">Location</span></div>
+                          <div className="flex ml-4"><dt className="w-24 text-gray-600">City, St, zip:</dt><dd className="text-gray-900">Waukee, IA 50263</dd></div>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Merge Profiles
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -891,6 +998,7 @@ export default function Home() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </main>
     </div>
